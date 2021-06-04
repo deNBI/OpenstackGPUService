@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: OpenStack GPU Service
+  title: OpenStack GPU Info
   description: Specification for REST-API of OpenStack Flavor GPU Info.
   license:
     name: Apache License 2.0
@@ -44,6 +44,14 @@ paths:
           schema:
             type: string
       responses:
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/404'
+
+
         401:
           $ref: '#/components/responses/UnauthorizedError'
         200:
@@ -63,6 +71,12 @@ paths:
           schema:
             type: string
       responses:
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
         401:
           $ref: '#/components/responses/UnauthorizedError'
         200:
@@ -71,7 +85,9 @@ paths:
             application/json:
               schema:
                   $ref: "#/components/schemas/FlavorGPU"
-                        
+
+
+        
 components:
   responses:
     UnauthorizedError:
@@ -85,6 +101,10 @@ components:
       type: http
       scheme: basic
   schemas:
+    404:
+      properties:
+        message:
+          type: string
     GPU:
       properties:
                       type:
