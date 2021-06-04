@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: OpenStack GPU Info
+  title: OpenStack GPU Service
   description: Specification for REST-API of OpenStack Flavor GPU Info.
   license:
     name: Apache License 2.0
