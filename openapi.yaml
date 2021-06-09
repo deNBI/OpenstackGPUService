@@ -8,62 +8,22 @@ info:
 paths:
   /gpus/flavors:
     get:
-      summary: List all Flavors with used/free GPUs count
+      summary: List all GPU-Flavors with count
       responses:
         401:
           $ref: '#/components/responses/UnauthorizedError'
         200:
-          description: A List of all available Flavors with GPUs with used and free GPU slots
+          description: A List of all GPU-Flavors with available and total GPU slots
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/FlavorGPU"
-  /gpus:
-    get:
-      summary: List all GPUs with free and used Slots
-      responses:
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
-        200:
-          description: A List of all available Flavors with GPUs with used and free GPU slots
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/GPU"
-  /gpus/{type}:
-    get:
-      summary: Get specific GPU with free and used Slots
-      parameters:
-        - in: path
-          name: type
-          required: true
-          schema:
-            type: string
-      responses:
-        404:
-          description: Not found
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/404'
 
-
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
-        200:
-          description: Specific GPU with used and free Slots
-          content:
-            application/json:
-              schema:
-                  $ref: "#/components/schemas/GPU"
-  
   /gpus/flavors/{flavor_openstack_id}:
     get:
-      summary: Get specific Flavor with Info of used/free GPU count
+      summary: Get specific GPU-Flavor with Info of available and total GPU count
       parameters:
         - in: path
           name: flavor_openstack_id
@@ -80,7 +40,7 @@ paths:
         401:
           $ref: '#/components/responses/UnauthorizedError'
         200:
-          description: Flavor with specific Openstack Id with used/free GPU count
+          description: GPU-Flavor with specific Openstack Id with available and total GPU count
           content:
             application/json:
               schema:
@@ -105,24 +65,16 @@ components:
       properties:
         message:
           type: string
-    GPU:
-      properties:
-                      type:
-                        type: string
-                      used_slots:
-                        type: number
-                      free_slots:
-                        type: number
-                      total_slots:
-                        type: number
     FlavorGPU:
       properties:
                       flavor_openstack_id:
                         type: string
                       flavor_name:
                         type: string
-                      gpu:
-                        $ref: "#/components/schemas/GPU"
+                      available:
+                        type: number
+                      total:
+                        type: number
                         
                       
 security:
