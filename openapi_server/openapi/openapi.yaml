@@ -1,0 +1,111 @@
+openapi: 3.0.0
+info:
+  description: Specification for REST-API of OpenStack Flavor GPU Info.
+  license:
+    name: Apache License 2.0
+  title: OpenStack GPU Service
+  version: 1.0.0
+servers:
+- url: /
+security:
+- basicAuth: []
+paths:
+  /gpus/flavors:
+    get:
+      operationId: gpus_flavors_get
+      responses:
+        "401":
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FlavorGPU'
+                type: array
+          description: A List of all GPU-Flavors with available and total GPU slots
+      summary: List all GPU-Flavors with count
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /gpus/flavors/{flavor_openstack_id}:
+    get:
+      operationId: gpus_flavors_flavor_openstack_id_get
+      parameters:
+      - explode: false
+        in: path
+        name: flavor_openstack_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+          description: Not found
+        "401":
+          description: Authentication information is missing or invalid
+          headers:
+            WWW_Authenticate:
+              explode: false
+              schema:
+                type: string
+              style: simple
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlavorGPU'
+          description: GPU-Flavor with specific Openstack Id with available and total
+            GPU count
+      summary: Get specific GPU-Flavor with Info of available and total GPU count
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          explode: false
+          schema:
+            type: string
+          style: simple
+  schemas:
+    "404":
+      properties:
+        message:
+          title: message
+          type: string
+      title: "404"
+    FlavorGPU:
+      example:
+        flavor_name: flavor_name
+        total: 6.027456183070403
+        flavor_openstack_id: flavor_openstack_id
+        available: 0.8008281904610115
+      properties:
+        flavor_openstack_id:
+          title: flavor_openstack_id
+          type: string
+        flavor_name:
+          title: flavor_name
+          type: string
+        available:
+          title: available
+          type: number
+        total:
+          title: total
+          type: number
+      title: FlavorGPU
+  securitySchemes:
+    basicAuth:
+      scheme: basic
+      type: http
+      x-basicInfoFunc: openapi_server.controllers.security_controller_.info_from_basicAuth
