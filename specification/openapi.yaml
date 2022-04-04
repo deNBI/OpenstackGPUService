@@ -10,8 +10,6 @@ paths:
     get:
       summary: List all GPU-Flavors with count
       responses:
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
         200:
           description: A List of all GPU-Flavors with available and total GPU slots
           content:
@@ -42,8 +40,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/404'
-        401:
-          $ref: '#/components/responses/UnauthorizedError'
         200:
           description: GPU-Flavor with specific Openstack Id with available and total GPU count
           content:
@@ -56,20 +52,7 @@ paths:
                     type: string
                     format: date-time
 
-
-        
 components:
-  responses:
-    UnauthorizedError:
-      description: Authentication information is missing or invalid
-      headers:
-        WWW_Authenticate:
-          schema:
-            type: string
-  securitySchemes:
-    basicAuth:     # <-- arbitrary name for the security scheme
-      type: http
-      scheme: basic
   schemas:
     404:
       properties:
@@ -86,6 +69,4 @@ components:
                       total:
                         type: number
                         
-                      
-security:
-  - basicAuth: [] 
+              

@@ -7,21 +7,11 @@ info:
   version: 1.0.0
 servers:
 - url: /
-security:
-- basicAuth: []
 paths:
   /gpus/flavors:
     get:
       operationId: gpus_flavors_get
       responses:
-        "401":
-          description: Authentication information is missing or invalid
-          headers:
-            WWW_Authenticate:
-              explode: false
-              schema:
-                type: string
-              style: simple
         "200":
           content:
             application/json:
@@ -55,14 +45,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/404'
           description: Not found
-        "401":
-          description: Authentication information is missing or invalid
-          headers:
-            WWW_Authenticate:
-              explode: false
-              schema:
-                type: string
-              style: simple
         "200":
           content:
             application/json:
@@ -78,15 +60,6 @@ paths:
       summary: Get specific GPU-Flavor with Info of available and total GPU count
       x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
-  responses:
-    UnauthorizedError:
-      description: Authentication information is missing or invalid
-      headers:
-        WWW_Authenticate:
-          explode: false
-          schema:
-            type: string
-          style: simple
   schemas:
     "404":
       properties:
@@ -104,8 +77,3 @@ components:
           type: number
         total:
           type: number
-  securitySchemes:
-    basicAuth:
-      scheme: basic
-      type: http
-      x-basicInfoFunc: openapi_server.controllers.security_controller_.info_from_basicAuth
