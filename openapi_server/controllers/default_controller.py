@@ -1,7 +1,6 @@
 import connexion
 import six
 
-from openapi_server.models.flavor_gpu import FlavorGPU  # noqa: E501
 from openapi_server.models.model404 import Model404  # noqa: E501
 from openapi_server import util
 
@@ -14,7 +13,7 @@ def gpus_flavors_flavor_openstack_id_get(flavor_openstack_id):  # noqa: E501
     :param flavor_openstack_id: 
     :type flavor_openstack_id: str
 
-    :rtype: FlavorGPU
+    :rtype: object
     """
     return 'do some magic!'
 
@@ -25,6 +24,6 @@ def gpus_flavors_get():  # noqa: E501
      # noqa: E501
 
 
-    :rtype: List[FlavorGPU]
+    :rtype: object
     """
     return 'do some magic!'

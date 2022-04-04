@@ -26,9 +26,14 @@ paths:
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/FlavorGPU'
-                type: array
+                properties:
+                  flavors:
+                    items:
+                      $ref: '#/components/schemas/FlavorGPU'
+                    type: array
+                  timestamp:
+                    format: date-time
+                    type: string
           description: A List of all GPU-Flavors with available and total GPU slots
       summary: List all GPU-Flavors with count
       x-openapi-router-controller: openapi_server.controllers.default_controller
@@ -62,7 +67,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FlavorGPU'
+                properties:
+                  flavor:
+                    $ref: '#/components/schemas/FlavorGPU'
+                  timestamp:
+                    format: date-time
+                    type: string
           description: GPU-Flavor with specific Openstack Id with available and total
             GPU count
       summary: Get specific GPU-Flavor with Info of available and total GPU count
@@ -85,25 +95,15 @@ components:
           type: string
       title: "404"
     FlavorGPU:
-      example:
-        flavor_name: flavor_name
-        total: 6.027456183070403
-        flavor_openstack_id: flavor_openstack_id
-        available: 0.8008281904610115
       properties:
         flavor_openstack_id:
-          title: flavor_openstack_id
           type: string
         flavor_name:
-          title: flavor_name
           type: string
         available:
-          title: available
           type: number
         total:
-          title: total
           type: number
-      title: FlavorGPU
   securitySchemes:
     basicAuth:
       scheme: basic
