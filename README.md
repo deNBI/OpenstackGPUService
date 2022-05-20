@@ -47,3 +47,11 @@ docker build -t openapi_server .
 # starting up a container
 docker run -p 8080:8080 openapi_server
 ```
+
+## Running from CLI
+The server functionality can also be tested using a simple cmdlineclient.
+
+```
+pip3 install -r requirements
+PYTHONPATH=. python3 cli --help
+```
