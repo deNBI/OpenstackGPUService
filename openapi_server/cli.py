@@ -6,7 +6,7 @@ from openapi_server.denbi.SerDe import JsonSerDe as SerDe
 from pymemcache.client.base import Client as MemCachedClient
 
 import json
-from encoder import JSONEncoder
+from openapi_server.encoder import JSONEncoder
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Create a list of available flavors.")

@@ -3,6 +3,7 @@ import six
 
 from openapi_server.models.model404 import Model404  # noqa: E501
 from openapi_server import util
+import openapi_server.controllers as controller
 
 
 def gpus_flavors_flavor_openstack_id_get(flavor_openstack_id):  # noqa: E501
@@ -15,7 +16,7 @@ def gpus_flavors_flavor_openstack_id_get(flavor_openstack_id):  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    return controller.getFlavorbyId(flavor_openstack_id)
 
 
 def gpus_flavors_get():  # noqa: E501
@@ -26,4 +27,4 @@ def gpus_flavors_get():  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    return controller.getFlavors()
