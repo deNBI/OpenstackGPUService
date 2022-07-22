@@ -1,0 +1,116 @@
+[
+  {
+    "cpu_info": {
+      "arch": "x86_64",
+      "model": "Skylake-Server-IBRS",
+      "vendor": "Intel",
+      "topology": {
+        "cells": 2,
+        "sockets": 1,
+        "cores": 14,
+        "threads": 1
+      }
+    },
+    "host_ip": "172.21.48.84",
+    "hypervisor_type": "QEMU",
+    "hypervisor_version": 4000000,
+    "name": "host1.denbi.de",
+    "service_details": {
+      "id": "ed2cf064-5200-4650-84b9-b7368ba6152a",
+      "host": "host1",
+      "disabled_reason": null
+    },
+    "servers": null,
+    "state": "up",
+    "status": "enabled",
+    "uptime": null,
+    "current_workload": 0,
+    "disk_available": 7112,
+    "local_disk_used": 50,
+    "local_disk_size": 7392,
+    "local_disk_free": 7342,
+    "memory_used": 65536,
+    "memory_size": 385534,
+    "memory_free": 319998,
+    "running_vms": 1,
+    "vcpus_used": 28,
+    "vcpus": 28,
+    "id": "92efad14-fba2-4b61-94a2-50dfa85d75ae"
+  },
+  {
+    "cpu_info": {
+      "arch": "x86_64",
+      "model": "Skylake-Server-IBRS",
+      "vendor": "Intel",
+      "topology": {
+        "cells": 2,
+        "sockets": 1,
+        "cores": 14,
+        "threads": 1
+      }
+    },
+    "host_ip": "172.21.48.170",
+    "hypervisor_type": "QEMU",
+    "hypervisor_version": 4000000,
+    "name": "host3.denbi.de",
+    "service_details": {
+      "id": "e9425ac7-cf11-44f4-a45b-4db14a6dc705",
+      "host": "host3",
+      "disabled_reason": null
+    },
+    "servers": null,
+    "state": "up",
+    "status": "enabled",
+    "uptime": null,
+    "current_workload": 0,
+    "disk_available": 4959,
+    "local_disk_used": 2051,
+    "local_disk_size": 7392,
+    "local_disk_free": 5341,
+    "memory_used": 65536,
+    "memory_size": 385534,
+    "memory_free": 319998,
+    "running_vms": 1,
+    "vcpus_used": 28,
+    "vcpus": 28,
+    "id": "a279da78-a0c1-40b6-96d7-b3caa1051c2f"
+  },
+  {
+    "cpu_info": {
+      "arch": "x86_64",
+      "model": "Skylake-Server-IBRS",
+      "vendor": "Intel",
+      "topology": {
+        "cells": 2,
+        "sockets": 1,
+        "cores": 14,
+        "threads": 1
+      }
+    },
+    "host_ip": "172.21.48.170",
+    "hypervisor_type": "QEMU",
+    "hypervisor_version": 4000000,
+    "name": "host4.denbi.de",
+    "service_details": {
+      "id": "f9425ac7-cf11-44f4-a45b-4db14a6dc705",
+      "host": "host4",
+      "disabled_reason": null
+    },
+    "servers": null,
+    "state": "up",
+    "status": "enabled",
+    "uptime": null,
+    "current_workload": 0,
+    "disk_available": 7392,
+    "local_disk_used": 0,
+    "local_disk_size": 7392,
+    "local_disk_free": 7392,
+    "memory_used": 0,
+    "memory_size": 385534,
+    "memory_free": 385534,
+    "running_vms": 0,
+    "vcpus_used": 28,
+    "vcpus": 28,
+    "id": "b279da78-a0c1-40b6-96d7-b3caa1051c2f"
+  }
+]
