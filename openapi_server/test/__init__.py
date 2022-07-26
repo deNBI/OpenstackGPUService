@@ -1,12 +1,36 @@
+import connexion
+import flask_testing
+import json
 import logging
 
-import connexion
-from flask_testing import TestCase
+from unittest.mock import MagicMock
+
 
 from openapi_server.encoder import JSONEncoder
 
 
-class BaseTestCase(TestCase):
+def mock_openstack_connection(mock):
+    mock_osclient = MagicMock()
+    fh = open("list_aggregates.json")
+    mock_osclient.list_aggregates.return_value = json.load(fh)
+    fh.close()
+
+    fh = open("list_servers.json")
+    mock_osclient.list_servers.return_value = json.load(fh)
+    fh.close()
+
+    fh = open("list_hypervisors.json")
+    mock_osclient.list_hypervisors.return_value = json.load(fh)
+    fh.close()
+
+    fh = open("list_flavors.json")
+    mock_osclient.list_flavors.return_value = json.load(fh)
+    fh.close()
+
+    mock.return_value = mock_osclient
+
+
+class FlaskTestCase(flask_testing.TestCase):
 
     def create_app(self):
         logging.getLogger('connexion.operation').setLevel('ERROR')

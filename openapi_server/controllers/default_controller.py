@@ -2,7 +2,6 @@ import connexion
 import six
 
 from openapi_server.models.model404 import Model404  # noqa: E501
-from openapi_server import util
 import openapi_server.controllers as controller
 
 
@@ -16,6 +15,11 @@ def gpus_flavors_flavor_openstack_id_get(flavor_openstack_id):  # noqa: E501
 
     :rtype: object
     """
+    flavor = controller.getFlavorbyId(flavor_openstack_id)
+
+    if not flavor:
+        return Model404("Unkown flavor id!"),404
+
     return controller.getFlavorbyId(flavor_openstack_id)
 
 
