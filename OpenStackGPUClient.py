@@ -18,6 +18,14 @@ if __name__ == "__main__":
                         help="Combination of host:port where a memcached server listened.",
                         type=str,
                         default="127.0.0.1:11211")
+    PARSER.add_argument("--update",
+                        help="Update cache only, implies option --memcached and forces updating the cache.",
+                        action="store_true",
+                        default=False)
+    PARSER.add_argument("--expire",
+                        help="Time in seconds after cache values expires. Defaults to 300 seconds.",
+                        type=int,
+                        default=300)
     GROUP = PARSER.add_mutually_exclusive_group()
     GROUP.add_argument("--flavorId",
                        help="Ask for availability of specific flavor id. ",
@@ -31,6 +39,11 @@ if __name__ == "__main__":
     RESOURCES = Resources()
     FLAVORS = []
 
+    start = datetime.datetime.now()
+
+    if ARGS.update:
+        MEMCACHEDCLIENT = MemCachedClient(ARGS.memcachedHost, serde=SerDe())
+
     if ARGS.memcached:
         MEMCACHEDCLIENT = MemCachedClient(ARGS.memcachedHost, serde=SerDe())
         # check if memcached contains a list of flavors
@@ -43,10 +56,16 @@ if __name__ == "__main__":
     if not FLAVORS:
         RESOURCES.update()
         FLAVORS = json.loads(json.dumps(RESOURCES.gpu_flavors(), cls=JSONEncoder))
-        if ARGS.memcached:
+        if ARGS.memcached or ARGS.update:
             TIMESTAMP = datetime.datetime.now()
-            MEMCACHEDCLIENT.set("FlavorGPU", FLAVORS)
-            MEMCACHEDCLIENT.set("FlavorGPU.timestamp", TIMESTAMP.strftime('%Y-%m-%d %H:%M:%S'))
+            MEMCACHEDCLIENT.set("FlavorGPU",
+                                FLAVORS,
+                                expire=ARGS.expire)
+            MEMCACHEDCLIENT.set("FlavorGPU.timestamp",
+                                TIMESTAMP.strftime('%Y-%m-%d %H:%M:%S'),
+                                expire=ARGS.expire)
+
+    stop = datetime.datetime.now()
 
     if ARGS.flavorId or ARGS.flavorName:
         FOUNDFLAVOR = None
@@ -64,4 +83,7 @@ if __name__ == "__main__":
                 print("Unknown flavor name!")
 
     else:
-        print(json.dumps(FLAVORS, cls=JSONEncoder, sort_keys=True, indent=4))
+        if ARGS.update:
+            print(f"Cache updated  in {(stop-start).seconds} seconds.")
+        else:
+            print(json.dumps(FLAVORS, cls=JSONEncoder, sort_keys=True, indent=4))

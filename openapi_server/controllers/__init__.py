@@ -10,6 +10,7 @@ from openapi_server.encoder import JSONEncoder
 
 MEMCACHE = True
 MEMCACHEDHOST = "127.0.0.1:11211"
+MEMCACHEEXPIREAFTER = 300
 MEMCACHEDCLIENT = MemCachedClient(MEMCACHEDHOST, serde=SerDe())
 
 
@@ -23,16 +24,18 @@ def enable_memcache(enabled=True):
     MEMCACHE = enabled
 
 
-def configure_memcache(enabled=True, host="127.0.0.1:11211"):
+def configure_memcache(enabled=True, host="127.0.0.1:11211", expire=300):
     """
     Configure memcache.
     :param enabled: Enabled memcached support, defaults to True
     :param host: memcached host as string "<ip>:<port>", defaults to "127.0.0.1:11211"
+    :param expire : time in seconds after cache expires, default to 300
     :return: None
     """
-    global MEMCACHE, MEMCACHEDHOST, MEMCACHEDCLIENT # pylint: disable=W0603
+    global MEMCACHE, MEMCACHEDHOST, MEMCACHEDCLIENT, MEMCACHEEXPIREAFTER # pylint: disable=W0603
     MEMCACHE = enabled
     MEMCACHEDHOST = host
+    MEMCACHEEXPIREAFTER = expire
     MEMCACHEDCLIENT = MemCachedClient(MEMCACHEDHOST, serde=SerDe())
 
 
@@ -51,8 +54,8 @@ def get_flavors():
         flavors = json.loads(json.dumps(resources.gpu_flavors(), cls=JSONEncoder))
         if MEMCACHE:
             # update memcached
-            MEMCACHEDCLIENT.set("FlavorGPU", flavors)
-            MEMCACHEDCLIENT.set("FlavorGPU.timestamp", timestamp.strftime('%Y-%m-%d %H:%M:%S'))
+            MEMCACHEDCLIENT.set("FlavorGPU", flavors, MEMCACHEEXPIREAFTER)
+            MEMCACHEDCLIENT.set("FlavorGPU.timestamp", timestamp.strftime('%Y-%m-%d %H:%M:%S'), MEMCACHEEXPIREAFTER)
 
     return {"flavors": flavors, "timestamp": timestamp.strftime('%Y-%m-%d %H:%M:%S')}
 

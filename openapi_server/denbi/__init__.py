@@ -31,7 +31,7 @@ def create_osclient(session=None): # pylint: disable=W0621
     :param session: Optional, if not set create_session is called
     :return: Return an authorized openstack.connection.Connection object
     """
+
     if not session:
         session = create_session()
-
-    return openstack.connection.Connection(session)
+    return openstack.connection.Connection(session=session)
