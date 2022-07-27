@@ -6,7 +6,7 @@ info:
   title: OpenStack GPU Service
   version: 1.0.0
 servers:
-- url: /
+  - url: /
 paths:
   /gpus/flavors:
     get:
@@ -31,13 +31,13 @@ paths:
     get:
       operationId: gpus_flavors_flavor_openstack_id_get
       parameters:
-      - explode: false
-        in: path
-        name: flavor_openstack_id
-        required: true
-        schema:
-          type: string
-        style: simple
+        - explode: false
+          in: path
+          name: flavor_openstack_id
+          required: true
+          schema:
+            type: string
+          style: simple
       responses:
         "404":
           content:

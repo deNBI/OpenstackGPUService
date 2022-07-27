@@ -1,16 +1,16 @@
 import argparse
 import datetime
+import json
+
+from pymemcache.client.base import Client as MemCachedClient
 
 from openapi_server.denbi.Resources import GPUResources as Resources
 from openapi_server.denbi.SerDe import JsonSerDe as SerDe
-from pymemcache.client.base import Client as MemCachedClient
-
-import json
 from openapi_server.encoder import JSONEncoder
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Create a list of available flavors.")
-    parser.add_argument("--memcached",help="Use memcached server",
+    parser.add_argument("--memcached", help="Use memcached server",
                         action="store_true",
                         default=False)
     parser.add_argument("--memcachedHost",
@@ -19,12 +19,11 @@ if __name__ == "__main__":
                         default="127.0.0.1:11211")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("--flavorId",
-                        help="Ask for availability of specific flavor id. ",
-                        type=str)
+                       help="Ask for availability of specific flavor id. ",
+                       type=str)
     group.add_argument("--flavorName",
                        help="Ask for availability of specific flavor name. ",
                        type=str)
-
 
     args = parser.parse_args()
 
@@ -32,11 +31,11 @@ if __name__ == "__main__":
     flavors = []
 
     if args.memcached:
-        memcachedclient = MemCachedClient(args.memcachedHost,serde=SerDe())
+        memcachedclient = MemCachedClient(args.memcachedHost, serde=SerDe())
         # check if memcached contains a list of flavors
         flavors = memcachedclient.get('FlavorGPU')
-        if memcachedclient.get('FlavorGPU.timestamp') :
-            timestamp = datetime.datetime.strptime(memcachedclient.get('FlavorGPU.timestamp'),'%Y-%m-%d %H:%M:%S')
+        if memcachedclient.get('FlavorGPU.timestamp'):
+            timestamp = datetime.datetime.strptime(memcachedclient.get('FlavorGPU.timestamp'), '%Y-%m-%d %H:%M:%S')
         else:
             flavors = None
 
@@ -45,15 +44,15 @@ if __name__ == "__main__":
         flavors = json.loads(json.dumps(resources.gpu_flavors(), cls=JSONEncoder))
         if args.memcached:
             timestamp = datetime.datetime.now()
-            memcachedclient.set("FlavorGPU",flavors)
-            memcachedclient.set("FlavorGPU.timestamp",timestamp.strftime('%Y-%m-%d %H:%M:%S'))
+            memcachedclient.set("FlavorGPU", flavors)
+            memcachedclient.set("FlavorGPU.timestamp", timestamp.strftime('%Y-%m-%d %H:%M:%S'))
 
     if args.flavorId or args.flavorName:
         foundFlavor = None
         for flavor in flavors:
             if flavor['flavor_openstack_id'] == args.flavorId or flavor['flavor_name'] == args.flavorName:
-               foundFlavor = flavor
-               break
+                foundFlavor = flavor
+                break
 
         if foundFlavor:
             print(json.dumps(flavor, cls=JSONEncoder, sort_keys=True, indent=4));
@@ -65,8 +64,3 @@ if __name__ == "__main__":
 
     else:
         print(json.dumps(flavors, cls=JSONEncoder, sort_keys=True, indent=4))
-
-
-
-
-

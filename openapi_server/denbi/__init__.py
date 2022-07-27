@@ -1,8 +1,9 @@
 import os
-import openstack
 
+import openstack
 from keystoneauth1 import session
 from keystoneauth1.identity import v3
+
 
 def create_session(app_name="denbi", app_version="1.0"):
     """
@@ -29,7 +30,7 @@ def create_osclient(session=None):
     :param session: Optional, if not set create_session is called
     :return: Return an authorized openstack.connection.Connection object
     """
-    if not(session):
+    if not (session):
         session = create_session()
 
     return openstack.connection.Connection(session)

@@ -1,8 +1,10 @@
 # coding: utf-8
 
 from __future__ import absolute_import
+
 import json
 import unittest.mock
+
 import openapi_server.controllers
 import openapi_server.denbi
 import openapi_server.test
@@ -10,15 +12,13 @@ import openapi_server.test
 
 @unittest.mock.patch('openapi_server.denbi.create_osclient')
 class TestDefaultController(openapi_server.test.FlaskTestCase):
-
     """DefaultController integration test stubs"""
 
     def setUp(self) -> None:
         # disable memcached
         openapi_server.controllers.enable_memcache(False)
 
-
-    def test_gpus_flavors_flavor_openstack_id_get(self,mock) -> None:
+    def test_gpus_flavors_flavor_openstack_id_get(self, mock) -> None:
         """Test case for gpus_flavors_flavor_openstack_id_get
            Get specific GPU-Flavor with Info of available and total GPU count
         """
@@ -50,14 +50,13 @@ class TestDefaultController(openapi_server.test.FlaskTestCase):
         self.assert404(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-
-    def test_gpus_flavors_get(self,mock):
+    def test_gpus_flavors_get(self, mock):
         """Test case for gpus_flavors_get
 
         List all GPU-Flavors with count.
         """
         openapi_server.test.mock_openstack_connection(mock)
-        headers = { 
+        headers = {
             'Accept': 'application/json',
             'Authorization': 'Basic Zm9vOmJhcg==',
         }
@@ -71,14 +70,14 @@ class TestDefaultController(openapi_server.test.FlaskTestCase):
         # validate response @see
         for flavor in (json.loads(response.data.decode('utf-8')))["flavors"]:
             if flavor["flavor_name"] == "de.NBI GPU V100 medium":
-                self.assertEqual(flavor["total"],4)
-                self.assertEqual(flavor["available"],3)
+                self.assertEqual(flavor["total"], 4)
+                self.assertEqual(flavor["available"], 3)
             elif flavor["flavor_name"] == "de.NBI GPU V100 large":
-                self.assertEqual(flavor["total"],4)
-                self.assertEqual(flavor["available"],3)
+                self.assertEqual(flavor["total"], 4)
+                self.assertEqual(flavor["available"], 3)
             elif flavor["flavor_name"] == "de.NBI 2 GPU V100 large":
-                self.assertEqual(flavor["total"],2)
-                self.assertEqual(flavor["available"],1)
+                self.assertEqual(flavor["total"], 2)
+                self.assertEqual(flavor["available"], 1)
             else:
                 self.fail(f"Unkown flavor '{flavor['name']}'.")
 

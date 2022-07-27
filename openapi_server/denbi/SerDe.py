@@ -1,5 +1,6 @@
 import json
 
+
 class JsonSerDe:
     """ Implements a (en-)coding safe (de-)serializer for Json objects.
         Implementation can be used as ser[ialize]de[serialize]er for

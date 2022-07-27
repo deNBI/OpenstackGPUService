@@ -1,9 +1,10 @@
-from datetime import datetime
-from pymemcache.client.base import Client as MemCachedClient
-from openapi_server.denbi.SerDe import JsonSerDe as SerDe
-import openapi_server.denbi.Resources
-
 import json
+from datetime import datetime
+
+from pymemcache.client.base import Client as MemCachedClient
+
+import openapi_server.denbi.Resources
+from openapi_server.denbi.SerDe import JsonSerDe as SerDe
 from openapi_server.encoder import JSONEncoder
 
 memcache = True
