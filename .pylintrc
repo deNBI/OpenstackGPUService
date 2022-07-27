@@ -115,7 +115,7 @@ argument-naming-style=snake_case
 attr-naming-style=snake_case
 
 # Bad variable names which should always be refused, separated by a comma.
-bad-names=test,bla,tmp
+bad-names=bla,tmp
 
 # Naming style matching correct class attribute names.
 class-attribute-naming-style=any

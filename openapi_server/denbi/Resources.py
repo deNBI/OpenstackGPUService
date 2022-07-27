@@ -166,4 +166,10 @@ class GPUResources:
         for flavor in self.__gpu_flavors__:
             if flavor.flavor_openstack_id == flavorid:
                 return flavor
-        raise Exception("Unknown flavor id!")
+        raise GPUResourceException("Unknown flavor id!")
+
+
+class GPUResourceException(Exception):
+
+    def __init__(self, msg):
+        super.__init__(f"GPUResource: {msg}")

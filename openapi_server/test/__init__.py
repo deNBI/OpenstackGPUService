@@ -1,3 +1,4 @@
+""" Tests """
 import json
 import logging
 from pathlib import Path
@@ -31,8 +32,9 @@ def mock_openstack_connection(mock):
 
 
 class FlaskTestCase(flask_testing.TestCase):
+    """ Subclass of flask_testing.TestCase, overwriting create_app. """
 
-    def create_app(self):
+    def create_app(self): # pylint: disable=R0201
         logging.getLogger('connexion.operation').setLevel('ERROR')
         app = connexion.App(__name__, specification_dir='../openapi/')
         app.app.json_encoder = JSONEncoder

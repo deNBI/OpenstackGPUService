@@ -1,13 +1,18 @@
+"""
+Tests for GPUResources.
+"""
+
 import unittest
 from unittest.mock import patch
 
 import openapi_server.denbi
 import openapi_server.test
-from openapi_server.denbi.Resources import GPUResources
+from openapi_server.denbi.Resources import GPUResources, GPUResourceException
 
 
 @patch('openapi_server.denbi.create_osclient')
 class TestGPUResources(unittest.TestCase):
+    """GPUResources integration tests."""
 
     def test_update(self, mock):
         '''
@@ -67,7 +72,7 @@ class TestGPUResources(unittest.TestCase):
         #  ask for de.NBI GPU V100 medium flavors
         try:
             flavor = res.gpu_flavor("a54ed137-04fe-463f-a2b0-666079d1b2ba")
-        except Exception:
+        except GPUResourceException:
             self.fail("Expected flavor ('a54ed137-04fe-463f-a2b0-666079d1b2ba') not found.")
 
         self.assertEqual(4, flavor.total, "Expected 4 flavor of type 'de.NBI GPU V100 medium' in total.")
@@ -76,7 +81,7 @@ class TestGPUResources(unittest.TestCase):
         #  ask for de.NBI GPU V100 large flavors
         try:
             flavor = res.gpu_flavor("4e6428f5-a0ec-4450-8f38-112236f056da")
-        except Exception:
+        except GPUResourceException:
             self.fail("Expected flavor ('4e6428f5-a0ec-4450-8f38-112236f056da') not found.")
 
         self.assertEqual(4, flavor.total, "Expected 4 flavor of type 'de.NBI GPU V100 large' in total.")
@@ -85,7 +90,7 @@ class TestGPUResources(unittest.TestCase):
         #  ask for de.NBI 2 GPU V100 large flavors
         try:
             flavor = res.gpu_flavor("9a8a5bfc-001e-469b-a787-ddbbc2ea8483")
-        except Exception:
+        except GPUResourceException:
             self.fail("Expected flavor ('9a8a5bfc-001e-469b-a787-ddbbc2ea8483') not found.")
 
         self.assertEqual(2, flavor.total, "Expected 2 flavor of type 'de.NBI 2 GPU V100 large' in total.")
@@ -95,7 +100,7 @@ class TestGPUResources(unittest.TestCase):
         try:
             flavor = res.gpu_flavor("gibt_es_nicht")
             self.fail("A flavor with id 'gibt_es_nicht' isn't present in mocked test data.")
-        except Exception:
+        except GPUResourceException:
             pass
 
 
