@@ -1,9 +1,10 @@
+""" Module contains classes  GPUResources and GPUResourcesException."""
 import openapi_server.denbi
 
 from openapi_server.models.flavor_gpu import FlavorGPU
 
 
-class GPUResources:
+class GPUResources: # pylint: disable=too-many-instance-attributes
     """
     Generates a data structure containing all gpu hypervisors with available resources.
     Additional the count of all possible flavor can be calculated.
@@ -76,7 +77,7 @@ class GPUResources:
 
         gpu_flavors = []
 
-        for flavor in self.__osclient__.list_flavors():
+        for flavor in self.__osclient__.list_flavors(): # pylint: disable=too-many-nested-blocks
             if "pci_passthrough:alias" in flavor["extra_specs"].keys() and \
                     flavor["is_disabled"] != "false" and \
                     flavor["name"].find("DEPRECATED") == -1:
@@ -170,6 +171,7 @@ class GPUResources:
 
 
 class GPUResourceException(Exception):
+    """ GPUResourceException to avoid throwing a general exception."""
 
     def __init__(self, msg):
-        super.__init__(f"GPUResource: {msg}")
+        super().__init__(f"GPUResource: {msg}")

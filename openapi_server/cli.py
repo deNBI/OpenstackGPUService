@@ -5,8 +5,8 @@ import json
 
 from pymemcache.client.base import Client as MemCachedClient
 
-from openapi_server.denbi.Resources import GPUResources as Resources
-from openapi_server.denbi.SerDe import JsonSerDe as SerDe
+from openapi_server.denbi.resources import GPUResources as Resources
+from openapi_server.denbi.ser_de import JsonSerDe as SerDe
 from openapi_server.encoder import JSONEncoder
 
 if __name__ == "__main__":

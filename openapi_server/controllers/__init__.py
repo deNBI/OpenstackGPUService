@@ -1,10 +1,11 @@
+""" Controller module providing some general functions """
 import json
 from datetime import datetime
 
 from pymemcache.client.base import Client as MemCachedClient
 
-import openapi_server.denbi.Resources
-from openapi_server.denbi.SerDe import JsonSerDe as SerDe
+import openapi_server.denbi.resources
+from openapi_server.denbi.ser_de import JsonSerDe as SerDe
 from openapi_server.encoder import JSONEncoder
 
 MEMCACHE = True
@@ -12,44 +13,54 @@ MEMCACHEDHOST = "127.0.0.1:11211"
 MEMCACHEDCLIENT = MemCachedClient(MEMCACHEDHOST, serde=SerDe())
 
 
-def enable_memcache(enabled):
-    global MEMCACHE
+def enable_memcache(enabled=True):
+    """
+    Enable (or disable) memcached support
+    :param enabled: Enabled memcached support, defaults to True
+    :return: None
+    """
+    global MEMCACHE # pylint: disable=W0603
     MEMCACHE = enabled
 
 
 def configure_memcache(enabled=True, host="127.0.0.1:11211"):
-    global MEMCACHE, MEMCACHEDHOST, memcachedClient
+    """
+    Configure memcache.
+    :param enabled: Enabled memcached support, defaults to True
+    :param host: memcached host as string "<ip>:<port>", defaults to "127.0.0.1:11211"
+    :return: None
+    """
+    global MEMCACHE, MEMCACHEDHOST, MEMCACHEDCLIENT # pylint: disable=W0603
     MEMCACHE = enabled
     MEMCACHEDHOST = host
-    memcachedClient = MemCachedClient(MEMCACHEDHOST, serde=SerDe())
+    MEMCACHEDCLIENT = MemCachedClient(MEMCACHEDHOST, serde=SerDe())
 
 
-def getFlavors():
+def get_flavors():
     flavors = []
+    timestamp = datetime.now()
     if MEMCACHE:
         # check if memcached contains a list of flavors
-        flavors = memcachedClient.get('FlavorGPU')
-        if memcachedClient.get('FlavorGPU.timestamp'):
-            timestamp = datetime.strptime(memcachedClient.get('FlavorGPU.timestamp'), '%Y-%m-%d %H:%M:%S')
+        flavors = MEMCACHEDCLIENT.get('FlavorGPU')
+        if MEMCACHEDCLIENT.get('FlavorGPU.timestamp'):
+            timestamp = datetime.strptime(MEMCACHEDCLIENT.get('FlavorGPU.timestamp'), '%Y-%m-%d %H:%M:%S')
 
     if not flavors:
-        resources = openapi_server.denbi.Resources.GPUResources()
+        resources = openapi_server.denbi.resources.GPUResources()
         resources.update()
         flavors = json.loads(json.dumps(resources.gpu_flavors(), cls=JSONEncoder))
-        timestamp = datetime.now()
         if MEMCACHE:
             # update memcached
-            memcachedClient.set("FlavorGPU", flavors)
-            memcachedClient.set("FlavorGPU.timestamp", timestamp.strftime('%Y-%m-%d %H:%M:%S'))
+            MEMCACHEDCLIENT.set("FlavorGPU", flavors)
+            MEMCACHEDCLIENT.set("FlavorGPU.timestamp", timestamp.strftime('%Y-%m-%d %H:%M:%S'))
 
     return {"flavors": flavors, "timestamp": timestamp.strftime('%Y-%m-%d %H:%M:%S')}
 
 
-def getFlavorbyId(flavorId):
-    flavors = getFlavors()
+def get_flavor_by_id(flavorid):
+    flavors = get_flavors()
     for flavor in flavors["flavors"]:
-        if flavor['flavor_openstack_id'] == flavorId:
+        if flavor['flavor_openstack_id'] == flavorid:
             return {"flavor": flavor, "timestamp": flavors["timestamp"]}
-            break
 
     return None

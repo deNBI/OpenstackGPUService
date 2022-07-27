@@ -15,12 +15,12 @@ def gpus_flavors_flavor_openstack_id_get(flavor_openstack_id):  # noqa: E501
 
     :rtype: object
     """
-    flavor = controller.getFlavorbyId(flavor_openstack_id)
+    flavor = controller.get_flavor_by_id(flavor_openstack_id)
 
     if not flavor:
         return Model404("Unkown flavor id!"), 404
 
-    return controller.getFlavorbyId(flavor_openstack_id)
+    return controller.get_flavor_by_id(flavor_openstack_id)
 
 
 def gpus_flavors_get():  # noqa: E501
@@ -31,4 +31,4 @@ def gpus_flavors_get():  # noqa: E501
 
     :rtype: object
     """
-    return controller.getFlavors()
+    return controller.get_flavors()

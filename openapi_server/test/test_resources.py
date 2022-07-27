@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 import openapi_server.denbi
 import openapi_server.test
-from openapi_server.denbi.Resources import GPUResources, GPUResourceException
+from openapi_server.denbi.resources import GPUResources, GPUResourceException
 
 
 @patch('openapi_server.denbi.create_osclient')
@@ -18,7 +18,7 @@ class TestGPUResources(unittest.TestCase):
         '''
         Test GPUResources.update() function mocking openstack API functions.
 
-        :param mock_openstack_connection_Connection: mocked create osclient function
+        :param mock: mocked create osclient function
         :return:
         '''
 

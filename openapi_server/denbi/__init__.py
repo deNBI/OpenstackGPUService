@@ -1,3 +1,4 @@
+""" Module denbi provides some helper functions to connect Openstack API. """
 import os
 
 import openstack
@@ -22,7 +23,7 @@ def create_session(app_name="denbi", app_version="1.0"):
     return session.Session(auth=auth, app_name=app_name, app_version=app_version)
 
 
-def create_osclient(session=None):
+def create_osclient(session=None): # pylint: disable=W0621
     """
     Create an authorized openstack.connection.Connection object, that allows
     REST API calls.
@@ -30,7 +31,7 @@ def create_osclient(session=None):
     :param session: Optional, if not set create_session is called
     :return: Return an authorized openstack.connection.Connection object
     """
-    if not (session):
+    if not session:
         session = create_session()
 
     return openstack.connection.Connection(session)
