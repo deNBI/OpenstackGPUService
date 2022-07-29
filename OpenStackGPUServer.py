@@ -3,10 +3,20 @@ import argparse
 import datetime
 import os
 import time
+import logging
 
 import gunicorn.app.base
 import openapi_server
 import openapi_server.controllers
+
+# create simple Logger to updateCache messages to console
+LOG = logging.getLogger('updateCache')
+HANDLER = logging.StreamHandler()
+HANDLER.setLevel(logging.INFO)
+formatter = logging.Formatter("[%(asctime)s] [%(process)d] [%(levelname)s] %(message)s", datefmt='%Y-%d-%m %I:%M:%S %z')
+HANDLER.setFormatter(formatter)
+LOG.addHandler(HANDLER)
+LOG.setLevel(logging.DEBUG)
 
 class StandaloneApplication(gunicorn.app.base.BaseApplication):
     """
@@ -22,7 +32,7 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
         super().__init__()
 
     def load_config(self):
-        """ overwrite gunicorn.app.base.BaseApplication.load_config()"""
+        """ overwrite gunicorn.app.base.BaseApplication.load_config() """
         config = {key: value for key, value in self.options.items()
                   if key in self.cfg.settings and value is not None}
         for key, value in config.items():
@@ -35,15 +45,19 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 
 def update_cache():
     """ Helper function. Updates cached data continuously. """
+    LOG.info("Start updating cached data continuously.")
     while True:
         start = datetime.datetime.now()
         openapi_server.controllers.update_cache()
         stop = datetime.datetime.now()
         runningtime = (stop-start).seconds
-        print(f"Updating cached data took {runningtime} seconds.")
-        time.sleep(int(openapi_server.controllers.MEMCACHEEXPIREAFTER/2))
+        LOG.info("Updating cached data took %(runningtime)d seconds.", runningtime)
+        sleepingtime = max(0, int(openapi_server.controllers.MEMCACHEEXPIREAFTER/2)-runningtime)
+        LOG.info("Sleeping for %(sleepingtime)d seconds.", sleepingtime)
+        time.sleep(sleepingtime)
 
 if __name__ == '__main__':
+
     PARSER = argparse.ArgumentParser("Run a OpenstackGPUServer.")
     PARSER.add_argument("--memcachedHost",
                         help="Combination of host:port where a memcached server listened.",
@@ -61,7 +75,6 @@ if __name__ == '__main__':
     ARGS = PARSER.parse_args()
 
     # validate arguments
-
     MEMCACHEDHOST = ARGS.memcachedHost.split(":")
     BIND = ARGS.bind.split(":")
     WORKERS = ARGS.workers
