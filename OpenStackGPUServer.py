@@ -51,9 +51,9 @@ def update_cache():
         openapi_server.controllers.update_cache()
         stop = datetime.datetime.now()
         runningtime = (stop-start).seconds
-        LOG.info("Updating cached data took %(runningtime)d seconds.", runningtime)
+        LOG.info("Updating cached data took %d seconds.", runningtime)
         sleepingtime = max(0, int(openapi_server.controllers.MEMCACHEEXPIREAFTER/2)-runningtime)
-        LOG.info("Sleeping for %(sleepingtime)d seconds.", sleepingtime)
+        LOG.info("Sleeping for %d seconds.", sleepingtime)
         time.sleep(sleepingtime)
 
 if __name__ == '__main__':
