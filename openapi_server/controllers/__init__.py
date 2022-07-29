@@ -13,6 +13,17 @@ MEMCACHEDHOST = "127.0.0.1:11211"
 MEMCACHEEXPIREAFTER = 300
 MEMCACHEDCLIENT = MemCachedClient(MEMCACHEDHOST, serde=SerDe())
 
+def __get_flavors_as_json_():
+    """
+    Internal functions. Create a new GPUResource obj, updates data, and returns list of
+    available flavor in json format
+
+    :return: list of flavors in json format
+    """
+    resources = openapi_server.denbi.resources.GPUResources()
+    resources.update()
+    return json.loads(json.dumps(resources.gpu_flavors(), cls=JSONEncoder))
+
 
 def enable_memcache(enabled=True):
     """
@@ -40,6 +51,14 @@ def configure_memcache(enabled=True, host="127.0.0.1:11211", expire=300):
 
 
 def get_flavors():
+    """
+    Return a dict containing a list of GPU flavors together with a timestamp.
+
+    If MemCached is enabled, asked the configured MemCached Server for cached data.
+
+
+    :return:
+    """
     flavors = []
     timestamp = datetime.now()
     if MEMCACHE:
@@ -49,9 +68,7 @@ def get_flavors():
             timestamp = datetime.strptime(MEMCACHEDCLIENT.get('FlavorGPU.timestamp'), '%Y-%m-%d %H:%M:%S')
 
     if not flavors:
-        resources = openapi_server.denbi.resources.GPUResources()
-        resources.update()
-        flavors = json.loads(json.dumps(resources.gpu_flavors(), cls=JSONEncoder))
+        flavors = __get_flavors_as_json_()
         if MEMCACHE:
             # update memcached
             MEMCACHEDCLIENT.set("FlavorGPU", flavors, MEMCACHEEXPIREAFTER)
@@ -61,9 +78,24 @@ def get_flavors():
 
 
 def get_flavor_by_id(flavorid):
+    """
+    Return a flavor specified by given flavor_id or None if id is not found.
+
+    :param flavorid: id of searched flavor.
+    :return: Return searched flavor or None.
+    """
     flavors = get_flavors()
     for flavor in flavors["flavors"]:
         if flavor['flavor_openstack_id'] == flavorid:
             return {"flavor": flavor, "timestamp": flavors["timestamp"]}
 
     return None
+
+
+def update_cache():
+    """
+    Updates the cached data stored in the configured MemCached service.
+    :return: None
+    """
+    MEMCACHEDCLIENT.set("FlavorGPU", __get_flavors_as_json_(), MEMCACHEEXPIREAFTER)
+    MEMCACHEDCLIENT.set("FlavorGPU.timestamp", datetime.now().strftime('%Y-%m-%d %H:%M:%S'), MEMCACHEEXPIREAFTER)

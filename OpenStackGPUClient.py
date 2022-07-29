@@ -1,4 +1,4 @@
-""" Commandline client """
+""" Commandline client """ # pylint: disable=invalid-name
 import argparse
 import datetime
 import json
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     RESOURCES = Resources()
     FLAVORS = []
 
-    start = datetime.datetime.now()
+    START = datetime.datetime.now()
 
     if ARGS.update:
         MEMCACHEDCLIENT = MemCachedClient(ARGS.memcachedHost, serde=SerDe())
@@ -65,7 +65,7 @@ if __name__ == "__main__":
                                 TIMESTAMP.strftime('%Y-%m-%d %H:%M:%S'),
                                 expire=ARGS.expire)
 
-    stop = datetime.datetime.now()
+    STOP = datetime.datetime.now()
 
     if ARGS.flavorId or ARGS.flavorName:
         FOUNDFLAVOR = None
@@ -84,6 +84,6 @@ if __name__ == "__main__":
 
     else:
         if ARGS.update:
-            print(f"Cache updated  in {(stop-start).seconds} seconds.")
+            print(f"Cache updated  in {(STOP-START).seconds} seconds.")
         else:
             print(json.dumps(FLAVORS, cls=JSONEncoder, sort_keys=True, indent=4))
