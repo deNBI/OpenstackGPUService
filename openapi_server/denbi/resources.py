@@ -135,9 +135,9 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
         for instance in self.__osclient__.list_servers(all_projects=True):
             # Filter all GPU instances
             if "pci_passthrough:alias" in instance["flavor"]["extra_specs"].keys():
-                if instance["host"] not in self.__gpu_instances_by_host__.keys():
-                    self.__gpu_instances_by_host__[instance["host"]] = []
-                self.__gpu_instances_by_host__[instance["host"]].append(instance)
+                if instance["OS-EXT-SRV-ATTR:host"] not in self.__gpu_instances_by_host__.keys():
+                    self.__gpu_instances_by_host__[instance["OS-EXT-SRV-ATTR:host"]] = []
+                self.__gpu_instances_by_host__[instance["OS-EXT-SRV-ATTR:host"]].append(instance)
 
     def update(self):
         """

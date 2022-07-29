@@ -1,2 +1,5 @@
+tox
+pylint
 pytest-cov>=2.8.1
 Flask-Testing==0.8.1
+
