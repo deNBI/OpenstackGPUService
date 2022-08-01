@@ -112,7 +112,6 @@ data. The cache (only memcached is supported) is updated continuously.
 1. A user/client requests for data.
 2. The server ask the cache if the requested resources are available.
 3. Depending on the cache status, the result (http code 200) or http code 503 (Service Unavailable) is returned
-
 4. Independent of the REST API, the cache is updated continuously (every 150 seconds by default).
 
 
