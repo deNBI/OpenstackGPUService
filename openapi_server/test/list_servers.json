@@ -11,7 +11,7 @@
       "original_name": "de.NBI large",
       "extra_specs": {}
     },
-    "host": "host1"
+    "OS-EXT-SRV-ATTR:host": "host1"
   },
   {
     "id": "1a9296b4-536e-476c-a41c-9abc941e6fc0",
@@ -27,6 +27,6 @@
         "pci_passthrough:alias": "V100:1"
       }
     },
-    "host": "host3"
+    "OS-EXT-SRV-ATTR:host": "host3"
   }
 ]
