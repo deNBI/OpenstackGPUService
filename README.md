@@ -169,10 +169,21 @@ To run the server on a Docker container, please execute the following from the r
 # building the image
 docker build -t openapi_server .
 
-# starting up a container
+# start up a container in the host network
 docker run -p 8080:8080 openapi_server
 docker run --network host --env-file ./env.file denbi/openstackgpuservice
 ```
 
-## Full orchestration using docker compose
+where `env-file` contains the Openstack environment :
+```
+OS_REGION_NAME=Bielefeld
+OS_PROJECT_DOMAIN_ID=default
+OS_INTERFACE=public
+OS_AUTH_URL=https://openstack.cebitec.uni-bielefeld.de:5000/v3/
+OS_USERNAME=XXXX
+OS_PROJECT_ID=XXXXX
+OS_USER_DOMAIN_NAME=Default
+OS_PROJECT_NAME=XXXXX
+OS_PASSWORD=XXXXXX
+```
 

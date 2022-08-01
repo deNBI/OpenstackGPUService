@@ -1,0 +1,9 @@
+#services:
+  rest:
+    build: .
+    ports:
+      - "8080:8080"
+    env_file:
+      - env.file
+  memcached:
+    image: memcached

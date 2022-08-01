@@ -12,4 +12,3 @@ COPY . /usr/src/app
 EXPOSE 8080
 
 CMD ["python3","OpenStackGPUServer.py"]
-#CMD ["gunicorn", "openapi_server:app()", "--workers 4", "--timeout 300"]
