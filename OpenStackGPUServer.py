@@ -68,9 +68,13 @@ if __name__ == '__main__':
                         type=str,
                         default="127.0.0.1:8080")
     PARSER.add_argument("--workers",
-                        help="Workers started b",
+                        help="Number of available Workers ",
                         type=int,
                         default=4)
+    PARSER.add_argument("--timeout",
+                        help="Seconds until gunicorn worker timeouts.",
+                        type=int,
+                        default=300)
 
     ARGS = PARSER.parse_args()
 
@@ -78,6 +82,7 @@ if __name__ == '__main__':
     MEMCACHEDHOST = ARGS.memcachedHost.split(":")
     BIND = ARGS.bind.split(":")
     WORKERS = ARGS.workers
+    TIMEOUT = ARGS.timeout
 
     # configure memcached
     openapi_server.controllers.configure_memcache(enabled=True,
@@ -89,7 +94,8 @@ if __name__ == '__main__':
         # child
         OPTIONS = {
             'bind': f"{BIND[0]}:{BIND[1]}",
-            'workers': WORKERS
+            'workers': WORKERS,
+            'timeout' : TIMEOUT
         }
         StandaloneApplication(openapi_server.app(), OPTIONS).run()
     else:
