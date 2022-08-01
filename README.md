@@ -103,13 +103,29 @@ To run the client, please execute the following from the root directory:
 ```
 
 ### Server
+
+For performance reasons (and better user feelings) the server returns only cached
+data. The cache (only memcached is supported) is updated continuously.
+
+![](images/openstack_gpu_service.png)
+
+1. A user/client requests for data.
+2. The server ask the cache if the requested resources are available.
+3. Depending on the cache status, the result (http code 200) or http code 503 (Service Unavailable) is returned
+
+4. Independent of the REST API, the cache is updated continuously (every 150 seconds by default).
+
+
 To run the server, please execute the following from the root directory:
 
 ```
-(venv)$ gunicorn "openapi_server:app() --workers 4 --timeout 300
+(venv)$ python3 OpenStackGPUServer.py 
 ```
 
-and open your browser to here:
+When running OpenstackGPUServer without further arguments a memcached service listening on
+127.0.0.1:11211 is expected and REST is bind to http://127.0.0.1:8080.
+
+A graphical ui (for testing) is available at:
 
 ```
 http://localhost:8080/ui/
