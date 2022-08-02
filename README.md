@@ -161,7 +161,7 @@ To launch the integration tests, use tox from the root directory:
 
 ## Running with Docker
 
-To run the server on a Docker container, please execute the following from the root directory:
+To run the server inside a Docker container, please execute the following from the root directory:
 
 ```bash
 # building the image
