@@ -168,7 +168,6 @@ To run the server inside a Docker container, please execute the following from t
 docker build -t openapi_server .
 
 # start up a container in the host network
-docker run -p 8080:8080 openapi_server
 docker run --network host --env-file ./env.file denbi/openstackgpuservice
 ```
 
@@ -185,3 +184,11 @@ OS_PROJECT_NAME=XXXXX
 OS_PASSWORD=XXXXXX
 ```
 
+## Running with Docker Compose
+Run a OpenstackGPUService together with a memcached service container with docker compose is also
+supported. 
+
+```
+docker run -p 8080:8080 openapi_server
+docker run --network host --env-file ./env.file denbi/openstackgpuservice
+```

@@ -6,5 +6,7 @@ services:
       - "8080:8080"
     env_file:
       - env.file
+    command: ["python3","OpenStackGPUServer.py","--memcachedHost","memcached:11211","--bind","0.0.0.0:8080"]
+
   memcached:
     image: memcached
