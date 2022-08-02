@@ -41,7 +41,7 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
             for hostname in aggregate["hosts"]:
                 # determine number of used gpus
                 used = 0
-                if hostname in self.__gpu_instances_by_host__.keys():
+                if hostname in self.__gpu_instances_by_host__:
                     for instance in self.__gpu_instances_by_host__[hostname]:
                         used = used + int(instance["flavor"]["extra_specs"]["pci_passthrough:alias"].split(":")[1])
 
@@ -135,7 +135,7 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
         for instance in self.__osclient__.list_servers(all_projects=True):
             # Filter all GPU instances
             if "pci_passthrough:alias" in instance["flavor"]["extra_specs"].keys():
-                if instance["OS-EXT-SRV-ATTR:host"] not in self.__gpu_instances_by_host__.keys():
+                if instance["OS-EXT-SRV-ATTR:host"] not in self.__gpu_instances_by_host__:
                     self.__gpu_instances_by_host__[instance["OS-EXT-SRV-ATTR:host"]] = []
                 self.__gpu_instances_by_host__[instance["OS-EXT-SRV-ATTR:host"]].append(instance)
 

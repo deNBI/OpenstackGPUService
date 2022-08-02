@@ -17,7 +17,7 @@ import openapi_server.test
 class TestDefaultController(openapi_server.test.FlaskTestCase):
     """DefaultController integration test stubs"""
 
-    def setUp(self) -> None: # pylint: disable=C0103,R0201
+    def setUp(self) -> None:
         # disable memcached
         openapi_server.controllers.enable_memcache(False)
 
@@ -32,7 +32,7 @@ class TestDefaultController(openapi_server.test.FlaskTestCase):
         }
         # ask for flavor with id 'a54ed137-04fe-463f-a2b0-666079d1b2ba'
         response = self.client.open(
-            '/gpus/flavors/{flavor_openstack_id}'.format(flavor_openstack_id='a54ed137-04fe-463f-a2b0-666079d1b2ba'),
+            "/gpus/flavors/a54ed137-04fe-463f-a2b0-666079d1b2ba",
             method='GET',
             headers=headers)
         # should result in a 200 status code
@@ -46,7 +46,7 @@ class TestDefaultController(openapi_server.test.FlaskTestCase):
 
         # ask for an unknown flavor id
         response = self.client.open(
-            '/gpus/flavors/{flavor_openstack_id}'.format(flavor_openstack_id='gibt_es_nicht'),
+            '/gpus/flavors/gibt_es_nicht',
             method='GET',
             headers=headers)
         # should result in a 404 status code
