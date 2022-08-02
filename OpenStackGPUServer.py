@@ -1,4 +1,4 @@
-""" Commandline Server """ # pylint: disable=invalid-name
+""" Commandline Server """ # pylint: disable=invalid-name,abstract-method
 import argparse
 import datetime
 import os
