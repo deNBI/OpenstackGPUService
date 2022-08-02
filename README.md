@@ -143,8 +143,8 @@ the Openstack API are mocked using unittest.mock functionality.
 ###  Mock Test Setup
 The Mock test setup "simulates" the following setup.
 - two aggregates (for GPU and non GPU based hypervisors)
-- three hypervisor available (28 cores, 384 cores, 4 TB local disc space), two of them having 
-  two GPU on board
+- three hypervisors available (28 cores, 384 cores, 4 TB local disc space), two of them having 
+  two GPUs on board
 - two instances running (de.NBI large, de.NBI GPU V100 medium)
 
 Calling the `gpu_flavors_get` methods should return a list of three GPU flavors.
