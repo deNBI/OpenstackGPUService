@@ -10,8 +10,7 @@ but can easily be adapted to any OpenStack installation providing GPU (or other)
 The OpenstackGPUService needs some additional configuration of aggregates and flavors to work properly.
 
 #### Aggregates
-Same or equal GPU based hypervisors (same GPU type, same number of GPUs) have to be summarized in a 
-separate aggregate. The aggregate must make some extra metadata available:
+GPU hypervisors have to be grouped into different aggregates based on their GPU type (`gpu_type`) and on the number of GPUs they provide (`gpu_count`). Every aggregate has to make some extra metadata available:
 
   - **gpu='<boolean>'** Wether this aggregate provides GPU resources.
   - **gpu_count='<integer>'** Number of GPUs provided.
