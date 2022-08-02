@@ -123,7 +123,7 @@ To run the server, please execute the following from the root directory:
 When running OpenstackGPUServer without further arguments a memcached service listening on
 127.0.0.1:11211 is expected and REST is bind to http://127.0.0.1:8080.
 
-A graphical ui (for testing) is available at:
+A graphical UI (for testing) is available at:
 
 ```
 http://localhost:8080/ui/
