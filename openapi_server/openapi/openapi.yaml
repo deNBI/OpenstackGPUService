@@ -1,0 +1,79 @@
+openapi: 3.0.0
+info:
+  description: Specification for REST-API of OpenStack Flavor GPU Info.
+  license:
+    name: Apache License 2.0
+  title: OpenStack GPU Service
+  version: 1.0.0
+servers:
+  - url: /
+paths:
+  /gpus/flavors:
+    get:
+      operationId: gpus_flavors_get
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties:
+                  flavors:
+                    items:
+                      $ref: '#/components/schemas/FlavorGPU'
+                    type: array
+                  timestamp:
+                    format: date-time
+                    type: string
+          description: A List of all GPU-Flavors with available and total GPU slots
+      summary: List all GPU-Flavors with count
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+  /gpus/flavors/{flavor_openstack_id}:
+    get:
+      operationId: gpus_flavors_flavor_openstack_id_get
+      parameters:
+        - explode: false
+          in: path
+          name: flavor_openstack_id
+          required: true
+          schema:
+            type: string
+          style: simple
+      responses:
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+          description: Not found
+        "200":
+          content:
+            application/json:
+              schema:
+                properties:
+                  flavor:
+                    $ref: '#/components/schemas/FlavorGPU'
+                  timestamp:
+                    format: date-time
+                    type: string
+          description: GPU-Flavor with specific Openstack Id with available and total
+            GPU count
+      summary: Get specific GPU-Flavor with Info of available and total GPU count
+      x-openapi-router-controller: openapi_server.controllers.default_controller
+components:
+  schemas:
+    "404":
+      properties:
+        message:
+          title: message
+          type: string
+      title: "404"
+    FlavorGPU:
+      properties:
+        flavor_openstack_id:
+          type: string
+        flavor_name:
+          type: string
+        available:
+          type: number
+        total:
+          type: number

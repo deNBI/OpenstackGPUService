@@ -1,0 +1,65 @@
+[
+  {
+    "availability_zone": "default",
+    "created_at": "2017-06-26T08:26:22.000000",
+    "deleted_at": null,
+    "is_deleted": false,
+    "name": "General Purpose",
+    "hosts": [
+      "host1"
+    ],
+    "metadata": {
+      "availability_zone": "default",
+      "cores": "28",
+      "hyperthreading": "false"
+    },
+    "updated_at": "2022-03-23T14:25:02.000000",
+    "uuid": "8d35cba1-68f5-4bac-ac23-db7f79aa7d6b",
+    "id": 1,
+    "location": {
+      "cloud": "denbi.de",
+      "region_name": null,
+      "zone": "default",
+      "project": {
+        "id": "15c37adda6994f40bfad163a45ef680a",
+        "name": null,
+        "domain_id": null,
+        "domain_name": null
+      }
+    }
+  },
+  {
+    "availability_zone": "default",
+    "created_at": "2018-10-13T19:08:59.000000",
+    "deleted_at": null,
+    "is_deleted": false,
+    "name": "GPU V100",
+    "hosts": [
+      "host3",
+      "host4"
+    ],
+    "metadata": {
+      "availability_zone": "default",
+      "cores": "28",
+      "gpu": "True",
+      "gpu_count": "2",
+      "gpu_type": "V100",
+      "hyperthreading": "false"
+    },
+    "updated_at": "2022-03-23T14:31:00.000000",
+    "uuid": "06f9a4ad-035f-4b6a-a7dd-d57acec56ae4",
+    "id": 10,
+    "name": "GPU V100",
+    "location": {
+      "cloud": "denbi.de",
+      "region_name": null,
+      "zone": "default",
+      "project": {
+        "id": "15c37adda6994f40bfad163a45ef680a",
+        "name": null,
+        "domain_id": null,
+        "domain_name": null
+      }
+    }
+  }
+]

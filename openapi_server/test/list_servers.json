@@ -1,0 +1,32 @@
+[
+  {
+    "id": "0a9296b4-536e-476c-a41c-9abc941e6fc0",
+    "name": "vm1",
+    "flavor": {
+      "vcpus": 28,
+      "ram": 65536,
+      "disk": 50,
+      "ephemeral": 0,
+      "swap": 1024,
+      "original_name": "de.NBI large",
+      "extra_specs": {}
+    },
+    "OS-EXT-SRV-ATTR:host": "host1"
+  },
+  {
+    "id": "1a9296b4-536e-476c-a41c-9abc941e6fc0",
+    "name": "vm2",
+    "flavor": {
+      "vcpus": 28,
+      "ram": 65536,
+      "disk": 50,
+      "ephemeral": 0,
+      "swap": 1024,
+      "original_name": "de.NBI GPU V100 medium",
+      "extra_specs": {
+        "pci_passthrough:alias": "V100:1"
+      }
+    },
+    "OS-EXT-SRV-ATTR:host": "host3"
+  }
+]
