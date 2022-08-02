@@ -7,7 +7,7 @@ It is written for [de.NBI cloud](https://cloud.denbi.de) OpenStack setups especi
 but can easily be adapted to any OpenStack installation providing GPU (or other) resources.
 
 ### Prerequisites
-The service need some additional configurations concerning aggregates and flavors to work as expected.
+The OpenstackGPUService needs some additional configuration of aggregates and flavors to work properly.
 
 #### Aggregates
 Same or equal GPU based hypervisors (same GPU type, same number of GPUs) have to be summarized in a 
