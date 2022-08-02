@@ -12,7 +12,7 @@ The OpenstackGPUService needs some additional configuration of aggregates and fl
 #### Aggregates
 GPU hypervisors have to be grouped into different aggregates based on their GPU type (`gpu_type`) and on the number of GPUs they provide (`gpu_count`). Every aggregate has to make some extra metadata available:
 
-  - **gpu='<boolean>'** Wether this aggregate provides GPU resources.
+  - **gpu='<boolean>'** Whether this aggregate provides GPU resources.
   - **gpu_count='<integer>'** Number of GPUs provided.
   - **gpu_type='<string>'** Type (**alias name**) of GPU provided.
 
