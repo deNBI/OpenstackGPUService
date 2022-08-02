@@ -3,8 +3,8 @@
 ## Overview
 
 This service provides a REST-API to retrieve information about OpenStack GPU flavors (total and available). 
-It is written for [de.NBI cloud](https://cloud.denbi.de) Openstack setups especially in Bielefeld, 
-but can be easliy adapted to any Openstack installation providing GPU (or other) resources.
+It is written for [de.NBI cloud](https://cloud.denbi.de) OpenStack setups especially in Bielefeld, 
+but can easily be adapted to any OpenStack installation providing GPU (or other) resources.
 
 ### Prerequisites
 The service need some additional configurations concerning aggregates and flavors to work as expected.
