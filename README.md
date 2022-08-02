@@ -172,7 +172,7 @@ docker run -p 8080:8080 openapi_server
 docker run --network host --env-file ./env.file denbi/openstackgpuservice
 ```
 
-where `env-file` contains the Openstack environment :
+where `env.file` contains the Openstack environment :
 ```
 OS_REGION_NAME=Bielefeld
 OS_PROJECT_DOMAIN_ID=default
