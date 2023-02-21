@@ -56,10 +56,10 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
                                         "gpus_used": int(used),
                                         "vcpus": int(hypervisor["vcpus"]),
                                         "vcpus_used": int(hypervisor["vcpus_used"]),
-                                        "memory": int(int(hypervisor["memory_size"]) / 1024),  # in GB
-                                        "memory_free": int(int(hypervisor["memory_free"]) / 1024),  # in GB
-                                        "disk": int(hypervisor["local_disk_size"]),  # in GB
-                                        "disk_available": int(hypervisor["disk_available"]),  # in GB
+                                        "memory": int(hypervisor["memory_size"]),               # in MB
+                                        "memory_free": int(hypervisor["memory_free"]),          # in MB
+                                        "disk": int(hypervisor["local_disk_size"]),             # in GB
+                                        "disk_available": int(hypervisor["disk_available"]),    # in GB
                                         })
 
             # add necessary aggregate information to datastructure
@@ -95,12 +95,14 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
                     if aggegrate["gpu_type"] == gpu_type:
                         # iterate over all hypervisor of current aggregate
                         for hypervisor in aggegrate["hypervisors"]:
+                            if hypervisor["status"] == "disabled" or hypervisor["state"] == "down":
+                                continue
                             # total number of flavors possible on an empty hypervisor
                             # calculate availability of each resource type
                             t_gpu = int(hypervisor["gpus"] / int(gpu_count))
                             t_vcpu = int(
                                 int(hypervisor["vcpus"]) * self.cpu_overprovisioning / int(flavor["vcpus"]))
-                            t_mem = int(int(hypervisor["memory"]) / int(flavor["ram"] / 1024))
+                            t_mem = int(int(hypervisor["memory"]) / int(flavor["ram"]))
                             t_disk = int(int(hypervisor["disk"] / local_disk))
                             # add minimum of all resources needed to total number
                             total += min(t_gpu, t_vcpu, t_mem, t_disk)
@@ -108,7 +110,7 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
                             c_gpu = int((hypervisor["gpus"] - hypervisor["gpus_used"]) / int(gpu_count))
                             c_vcpu = int((int(hypervisor["vcpus"]) * self.cpu_overprovisioning - int(
                                 hypervisor["vcpus_used"])) / int(flavor["vcpus"]))
-                            c_mem = int(int(hypervisor["memory_free"]) / int(flavor["ram"] / 1024))
+                            c_mem = int(int(hypervisor["memory_free"]) / int(flavor["ram"]))
                             c_disk = int(int(hypervisor["disk_available"] / local_disk))
                             if min(c_gpu, c_vcpu, c_mem, c_disk) < 0:
                                 print(f"{c_gpu} {c_vcpu} {c_mem} {c_disk} {min(c_gpu, c_vcpu, c_mem, c_disk)}")
