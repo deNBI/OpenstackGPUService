@@ -107,13 +107,11 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
                             # add minimum of all resources needed to total number
                             total += min(t_gpu, t_vcpu, t_mem, t_disk)
                             # number of flavors possible with current available resources
-                            c_gpu = int(0, (hypervisor["gpus"] - hypervisor["gpus_used"]) / int(gpu_count))
-                            c_vcpu = int(0, (int(hypervisor["vcpus"]) * self.cpu_overprovisioning - int(
-                                hypervisor["vcpus_used"])) / int(flavor["vcpus"]))
-                            c_mem = int(0, int(hypervisor["memory_free"]) / int(flavor["ram"]))
-                            c_disk = int(0, int(hypervisor["disk_available"] / local_disk))
-                            if min(c_gpu, c_vcpu, c_mem, c_disk) < 0:
-                                print(f"{c_gpu} {c_vcpu} {c_mem} {c_disk} {min(c_gpu, c_vcpu, c_mem, c_disk)}")
+                            c_gpu = max(0,int((hypervisor["gpus"] - hypervisor["gpus_used"]) / int(gpu_count)))
+                            c_vcpu = max(0,int((int(hypervisor["vcpus"]) * self.cpu_overprovisioning - int(
+                                hypervisor["vcpus_used"])) / int(flavor["vcpus"])))
+                            c_mem = max(0,int(int(hypervisor["memory_free"]) / int(flavor["ram"])))
+                            c_disk = max(0,int(int(hypervisor["disk_available"] / local_disk)))
                             available += min(c_gpu, c_vcpu, c_mem, c_disk)
 
                 gpu_flavors.append(FlavorGPU(flavor_name=flavor["name"],
