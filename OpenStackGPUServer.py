@@ -63,8 +63,12 @@ if __name__ == '__main__':
                         help="Combination of host:port where a memcached server listened.",
                         type=str,
                         default="127.0.0.1:11211")
+    PARSER.add_argument("--memcachedPrefix",
+                        help="Prefix for memcached keys",
+                        type=str,
+                        default='')
     PARSER.add_argument("--bind",
-                        help="Update cache only, implies option --memcached and forces updating the cache.",
+                        help="Bind address for REST API server.",
                         type=str,
                         default="127.0.0.1:8080")
     PARSER.add_argument("--workers",
@@ -80,6 +84,7 @@ if __name__ == '__main__':
 
     # validate arguments
     MEMCACHEDHOST = ARGS.memcachedHost.split(":")
+    MEMCACHEDPREFIX= ARGS.memcachedPrefix
     BIND = ARGS.bind.split(":")
     WORKERS = ARGS.workers
     TIMEOUT = ARGS.timeout
@@ -87,7 +92,8 @@ if __name__ == '__main__':
     # configure memcached
     openapi_server.controllers.configure_memcache(enabled=True,
                                                   host=MEMCACHEDHOST,
-                                                  expire=300)
+                                                  expire=TIMEOUT,
+                                                  prefix=MEMCACHEDPREFIX)
 
     # run gunicorn in a separate child process
     if os.fork() == 0:
