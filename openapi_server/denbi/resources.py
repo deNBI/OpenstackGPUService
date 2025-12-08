@@ -45,7 +45,7 @@ class GPUResources: # pylint: disable=too-many-instance-attributes
                     for instance in self.__gpu_instances_by_host__[hostname]:
                         used = used + int(instance["flavor"]["extra_specs"]["pci_passthrough:alias"].split(":")[1])
 
-                hypervisor = self.__hypervisors__[hostname]
+                hypervisor = self.__hypervisors__[hostname.split('.')[0]]
 
                 gpu_hypervisors.append({"name": hypervisor["name"].split('.')[0],
                                         "status": hypervisor["status"],
